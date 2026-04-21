@@ -1,9 +1,10 @@
-WITH LeadLogs AS (
+WITH cons_nums AS (
     SELECT num,
-           LEAD(num,1) OVER (ORDER BY id) AS NextNUM,
-           LEAD(num,2) OVER (ORDER BY id) AS NextToNextNUM
+        LEAD(num, 1) OVER (ORDER BY id ASC) AS next_num,
+        LEAD(num, 2) OVER (ORDER BY id ASC) AS next_to_num
     FROM Logs
 )
+
 SELECT DISTINCT num AS ConsecutiveNums
-FROM LeadLogs
-WHERE NextNUM=num AND NextToNextNUM=num; 
+FROM cons_nums
+WHERE num = next_num AND next_num = next_to_num
