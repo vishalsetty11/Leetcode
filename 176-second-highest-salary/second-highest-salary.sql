@@ -1,10 +1,9 @@
--- Write your PostgreSQL query statement below
 SELECT (
-    SELECT DISTINCT salary 
+    SELECT DISTINCT salary
     FROM (
-        SELECT * ,
-            DENSE_RANK() OVER (ORDER BY salary DESC) AS SalRnk
-        FROM Employee 
+        SELECT *,
+        DENSE_RANK() OVER (ORDER BY salary DESC) AS sal_rank
+        FROM Employee
     )
-    WHERE SalRnk = 2
-)as SecondHighestSalary
+    WHERE sal_rank = 2
+) AS SecondHighestSalary
