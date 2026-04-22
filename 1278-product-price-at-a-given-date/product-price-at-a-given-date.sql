@@ -1,0 +1,19 @@
+-- Write your PostgreSQL query statement below
+SELECT product_id, new_price AS price
+FROM(
+    SELECT product_id, new_price, change_date,
+        ROW_NUMBER() OVER (PARTITION BY product_id ORDER BY change_date DESC) AS price_rnk
+    FROM Products 
+    WHERE change_date <= '2019-08-16'
+) t
+WHERE price_rnk = 1
+
+UNION
+
+SELECT product_id, 10 AS price
+FROM Products
+WHERE product_id NOT IN (
+    SELECT product_id
+    FROM Products p
+    WHERE change_date <= '2019-08-16'
+)
