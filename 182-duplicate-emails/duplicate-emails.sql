@@ -1,9 +1,8 @@
 -- Write your PostgreSQL query statement below
-SELECT
-    DISTINCT email
+SELECT DISTINCT email
 FROM (
-    SELECT *,
-        ROW_NUMBER() OVER (PARTITION BY email) AS Rnum
+    SELECT email,
+        ROW_NUMBER() OVER (PARTITION BY email ORDER BY id) AS rnum
     FROM Person
 )
-WHERE Rnum > 1
+WHERE rnum > 1
